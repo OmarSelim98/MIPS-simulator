@@ -50,4 +50,11 @@ public class ALUControl {
             return "0";
         }
     }
+    public String getJumpR(String funct){
+        if(funct.equals("001000")){
+            return "1";
+        }else{
+            return "0";
+        }
+    }
 }

@@ -28,7 +28,7 @@ public class DataMemory {
     }
 
     public String Calculate(){
-        String data = "";
+        String data = "00000000000000000000000000000000";
         if(this.mem_write.equals("1")){
             ChooseMemoryOpeartion(this.address,this.write_data,this.op_code);
         }else if(this.mem_write.equals("0")){

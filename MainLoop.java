@@ -18,7 +18,7 @@ public class MainLoop {
         ControlUnit control = new ControlUnit();
         DataMemory dataMemory = new DataMemory();
 
-        inst[0]= "addi $t1 $0 17" ;
+        inst[0]= "j koko" ;
         inst[1] = "beq $t1 $t2 koko";
         inst[2] = "lb $t1 45($t0)";
         inst[3] = "beq $t1 $t1 koko";
@@ -110,9 +110,10 @@ public class MainLoop {
         ALUControl alu_ctrl = new ALUControl();
         String shamt_src = alu_ctrl.getShamtSrc(funct);
         String alu_control_code = alu_ctrl.getALUCtrl(funct);
-
+        String jumpR = alu_ctrl.getJumpR(funct);
         System.out.println("Alu Control : OUTPUT : Shamt Src -> "+shamt_src);
         System.out.println("Alu Control : OUTPUT :CODE-> "+alu_control_code);
+        System.out.println("Alu Control : OUTPUT :JumpR-> "+jumpR);
 
             //BRANCH 1
                 String full_branch_address = add_PC_Branch(pc,branch_address);
@@ -168,24 +169,30 @@ public class MainLoop {
         }
 
             //Continue Branch
-            String branch_result; // THIS GOES TO THE JUMP'S MUX
-
+            String branch_mux_result= ""; // THIS GOES TO THE JUMP'S MUX
+            String jump_mux_result="";
             if(ControlUnit.Branch.equals("1") && zero_flag.equals("1")){
                 //Update PC to the calculated branch address
-                branch_result = full_branch_address;
+                branch_mux_result = full_branch_address;
 
             }else{
                 //Don't update pc and wait for jump mux.
-                branch_result = pc;
+                branch_mux_result = pc;
             }
 
             if(ControlUnit.Jump.equals("1")){
-                pc = full_jump_address;
+                jump_mux_result = full_jump_address;
             }else{
-                pc = branch_result;
+                jump_mux_result = branch_mux_result;
             }
 
-                //System.out.println(Integer.parseInt(pc,2));
+            if(alu_ctrl.getJumpR(funct).equals("1")){
+                pc = reg_output1;
+            }else{
+                pc = jump_mux_result;
+            }
+
+                System.out.println(Integer.parseInt(pc,2));
 
 
         //STAGE 4 END

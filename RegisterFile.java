@@ -45,7 +45,7 @@ public class RegisterFile {
        for(int i=0;i<regData.length;i++){
            regData[i]="00000000000000000000000000000001";
        }
-        regData[0]="00000000000000000000000000000000";
+        regData[16]="00000000000000000000000000001000";
        this.reg1 = "";
        this.reg2="";
     }
