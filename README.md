@@ -10,9 +10,8 @@ Till Now , What's done is :
     5-ALU Control unit.
     6-ALU.
     7-Data Memory.
-    8-Jumps (J , JAL , BEQ)
+    8-Jumps (J , JAL , BEQ , JR)
 
 ToDO:
-    1-Support JR.
-    2-Add GUI.
-    3-(optional) Add Educational GUI.
+    1-Add GUI.
+    2-(optional) Add Educational GUI.
