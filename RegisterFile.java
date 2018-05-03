@@ -43,9 +43,8 @@ public class RegisterFile {
        this.regName[30]="$fp";
        this.regName[31]="$ra";
        for(int i=0;i<regData.length;i++){
-           regData[i]="00000000000000000000000000000001";
+           regData[i]="00000000000000000000000000000000";
        }
-        regData[16]="00000000000000000000000000001000";
        this.reg1 = "";
        this.reg2="";
     }
@@ -76,8 +75,12 @@ public class RegisterFile {
         return null;
     }
     /**Takes a String of Binary Register File name and Prepare it to write in it*/
-    public void setWrite(String regName){
-        this.regWrite = ""+Integer.parseInt(regName,2);
+    public void setWrite(String regName) throws Exception{
+        if(Integer.parseInt(regName,2) != 0) {
+            this.regWrite = "" + Integer.parseInt(regName, 2);
+        }else{
+            throw new Exception("You can't rewrite the zero register!");
+        }
     }
     /**  */
     public void write(String data){

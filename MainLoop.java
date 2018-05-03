@@ -18,7 +18,7 @@ public class MainLoop {
         ControlUnit control = new ControlUnit();
         DataMemory dataMemory = new DataMemory();
 
-        inst[0]= "j koko" ;
+        inst[0]= "addi $0 $t1 4" ;
         inst[1] = "beq $t1 $t2 koko";
         inst[2] = "lb $t1 45($t0)";
         inst[3] = "beq $t1 $t1 koko";
@@ -77,11 +77,14 @@ public class MainLoop {
         control.list();
         rf.setRead(current_inst_divided[1], 1); //set Rs as Register 1 to be read
         //Set Rt or Rd as Write Destination Depending on Imm Field (RegDst)
+        try{
         if(ControlUnit.RegDst.equals("0")){
             rf.setWrite(current_inst_divided[2]);
         }else if(ControlUnit.RegDst.equals("1")){
             rf.setRead(current_inst_divided[2], 2);
             rf.setWrite(current_inst_divided[3]);
+        }}catch (Exception e){
+            e.printStackTrace();
         }
         //Extend [15-0]
         String imm = current_inst_divided[3]+current_inst_divided[4]+current_inst_divided[5];
@@ -200,8 +203,14 @@ public class MainLoop {
         //STAGE 5
             //Write to reg from (memory/ALU)
         System.out.println("REGISTER FILE : WRITTEN DATA -> "+register_write_input);
+        try {
             rf.write(register_write_input);
-
+        }catch (Exception e){
+            //DONT SHOW ERROR
+            //ONLY OCCURS IF USER HAS SET WRITE TO $0
+            //SO IT ID NOT SET AND THE VARIABLE WILL BE = NULL
+            //ARRAY WILL SEARCH FOR THE NULL INDEX , EXCEPTION WILL BE THROWN
+        }
         //STAGE 5 END
 
         /*
