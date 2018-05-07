@@ -2,8 +2,8 @@
 package org.architecture;
 
 public class RegisterFile {
-    static private String [] regData = new String[32];
-    static String [] regName = new String[32];
+    static public String [] regData = new String[32];
+    static public String [] regName = new String[32];
     private String reg1;
     private String reg2;
     private String regWriteBool; // Boolean string for knowing if we will write or not

@@ -1,0 +1,12 @@
+.text-area{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 12px;
+    -fx-color:#202020;
+    -fx-focus-color:#202020;
+    -fx-faint-focus-color: #202020;
+}
+.text-area:focused{
+}
+.text-area .content {
+    -fx-background-color: #202020;
+}

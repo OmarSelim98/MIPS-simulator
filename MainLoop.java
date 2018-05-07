@@ -18,7 +18,7 @@ public class MainLoop {
         ControlUnit control = new ControlUnit();
         DataMemory dataMemory = new DataMemory();
 
-        inst[0]= "addi $0 $t1 4" ;
+        inst[0]= "addi $t0 $t1 4" ;
         inst[1] = "beq $t1 $t2 koko";
         inst[2] = "lb $t1 45($t0)";
         inst[3] = "beq $t1 $t1 koko";
@@ -213,6 +213,10 @@ public class MainLoop {
         }
         //STAGE 5 END
 
+        //UPDATE GUI
+            //this.gui.setRegs(rf.regName);
+        //UPDATE END
+
         /*
         label - position = 0.
         j label - postion = 3.
@@ -279,5 +283,12 @@ public class MainLoop {
         int res = pc_num+branch_num;
         System.out.println("Pc: "+pc_num+"branch: "+branch_num+" result = "+res);
         return sign_extend_unsigned(Integer.toBinaryString(res));
+    }
+
+    public void setInstNum(int instNum){
+        inst_num = instNum;
+    }
+    public void start(){
+        //the loop starts here
     }
 }
