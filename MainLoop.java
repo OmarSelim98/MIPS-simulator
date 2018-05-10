@@ -11,7 +11,7 @@ public class MainLoop {
     Instruction_memory instruction_process;
     ControlUnit control ;
     DataMemory dataMemory;
-    String []inst = new String[inst_num];
+    String []inst;
     String current_inst = "";
     String [] current_inst_divided;
 
@@ -42,35 +42,6 @@ public class MainLoop {
     }
 
     void start(){
-            /*String []inst = new String[8];
-            String current_inst = "";
-            String [] current_inst_divided;
-
-            rf = new RegisterFile();
-            assembler = new Assembler();
-            instruction_process = new Instruction_memory(0);
-            control = new ControlUnit();
-            dataMemory = new DataMemory();
-
-            inst[0]= "addi $t0 $t1 4" ;
-            inst[1] = "addi $t1 $t2 9";
-            inst[2] = "lb $t1 45($t0)";
-            inst[3] = "lw $t1 0($t3)";
-            inst[4] = "lw $t1 45($t0)";
-            inst[5]= "sll $t3 $t2 3";
-            inst[6]= "addi $t3 $t2 4";
-            inst[7]= "add $t1 $t2 $t3";
-            //Assemble Instructions
-            String [] output = assembler.assemble(inst);
-
-            for(int i = 0;i<output.length;i++){
-                System.out.println("Inst["+i+"] : "+output[i]);
-            }
-
-            //Add to Inst Memory
-            instruction_process.add(output);
-            */
-
             //STAGE 1
             /* Here goes fetching inst , dividing it , jumping if possible and incrementing PC*/
             //fetch next inst

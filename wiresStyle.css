@@ -1,0 +1,13 @@
+.text-field{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 12px;
+    -fx-background-color:#2e3032;
+    -fx-focus-color:#202020;
+    -fx-faint-focus-color: #202020;
+}
+.label{
+    -fx-text-fill:#ffffff;
+}
+.pane{
+    -fx-background-color:#2e3032;
+}

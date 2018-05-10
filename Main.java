@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
     MainLoop mainLoop;
     boolean is_built = false;
+    static Stage stage;
+    static Scene editor;
     public static void main(String[] args) {
         launch(args);
 
@@ -21,7 +23,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        stage = primaryStage;
         primaryStage.setTitle("Mips Simulator");
         primaryStage.setResizable(false);
         Button assembleBtn = new CustomButton(new Image("org/architecture/build.png"));
@@ -57,9 +59,9 @@ public class Main extends Application {
         layout.setTop(topPane);
         layout.setCenter(txtArea);
 
-        Scene scene = new Scene(layout,800,600);
+        editor = new Scene(layout,800,600);
 
-        primaryStage.setScene(scene);
+        primaryStage.setScene(editor);
         primaryStage.show();
 
         assembleBtn.setOnAction(e->{
@@ -111,7 +113,11 @@ public class Main extends Application {
         });
         runBtn.setOnAction(e->{
             //mainLoop.start();
-            primaryStage.setScene(new DataScene(RegisterFile.regName,RegisterFile.regData).getScene());
+            primaryStage.setScene(new DataScene(mainLoop).getScene());
         });
+    }
+
+    public static void SetScene(Scene scene){
+        stage.setScene(scene);
     }
 }
