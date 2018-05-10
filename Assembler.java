@@ -42,32 +42,37 @@ public class Assembler {
             }
         }
         branches = branches.trim();
-        String [] branches_arr= branches.split(" ");
-        String [][] branch_data = new String [branches_arr.length][];
-        String [][] branch_line = new String [branches_arr.length][];
-        for(int i = 0;i<branches_arr.length;i++){
-            branch_data[i] = branches_arr[i].split(":");
-        }
-        
-        for(int i = 0 ; i<output.length;i++){
-            String op = output[i].substring(0,6);
-            for(int j =0;j<branch_data.length;j++){
-                if(output[i].indexOf(branch_data[j][1].charAt(0)) > -1){
-                int last_int =output[i].indexOf(branch_data[j][1]);
-                String new_output = output[i].substring(0, last_int);
-                //Here we get the label and change it with the instruction position (for beq and j)
-                //new_output += to_16(Integer.toBinaryString(Integer.parseInt(branch_data[j][0])));
-                if(op.equals("000100")){
-                    //BEQ RELATIVE ADDRESS.
-                    new_output+= this.to_16(Integer.toBinaryString((Integer.parseInt(branch_data[j][0])-1)-i));
-                }else{
-                    //J FULL ADDRESS.
-                    new_output+= this.to_26(Integer.toBinaryString(Integer.parseInt(branch_data[j][0])));
-                }
-                output[i] = new_output;
-                }
+        if(branches != "") {
+            String[] branches_arr = branches.split(" ");
+            String[][] branch_data = new String[branches_arr.length][];
+            String[][] branch_line = new String[branches_arr.length][];
+            for (int i = 0; i < branches_arr.length; i++) {
+                branch_data[i] = branches_arr[i].split(":");
+                System.out.println("(" + branch_data[i] + ")");
             }
-            
+
+
+                for (int i = 0; i < output.length; i++) {
+                    String op = output[i].substring(0, 6);
+                    for (int j = 0; j < branch_data.length; j++) {
+                        System.out.println(output[i].indexOf(branch_data[j][1].charAt(0)));
+                        if (output[i].indexOf(branch_data[j][1].charAt(0)) != -1) {
+                            int last_int = output[i].indexOf(branch_data[j][1]);
+                            String new_output = output[i].substring(0, last_int);
+                            //Here we get the label and change it with the instruction position (for beq and j)
+                            //new_output += to_16(Integer.toBinaryString(Integer.parseInt(branch_data[j][0])));
+                            if (op.equals("000100")) {
+                                //BEQ RELATIVE ADDRESS.
+                                new_output += this.to_16(Integer.toBinaryString((Integer.parseInt(branch_data[j][0]) - 1) - i));
+                            } else {
+                                //J FULL ADDRESS.
+                                new_output += this.to_26(Integer.toBinaryString(Integer.parseInt(branch_data[j][0])));
+                            }
+                            output[i] = new_output;
+                        }
+                    }
+
+                }
         }
         return output;
        /*for(int i=0;i<output.length;i++){

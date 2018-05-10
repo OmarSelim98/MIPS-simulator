@@ -10,7 +10,7 @@ public class Instruction_memory {
     public int IntCounter=this.starting_address;
     private int starting_address;//the IntCounter is used for telling us the number of instructions we have
    public Instruction_memory(int starting_address){
-       this.starting_address = starting_address;
+       this.starting_address = starting_address*4;
    }
 
     public int CurrentInstruction=this.starting_address;
@@ -25,8 +25,8 @@ public class Instruction_memory {
         for(int i=0;i<(Instructions.length*4);i++)
         {
             
-            
-            IntMemory[IntCounter]=Instructions[inst_count++/4].substring(begin,end);
+            System.out.println("while adding : "+(starting_address+i));
+            IntMemory[starting_address+i]=Instructions[inst_count++/4].substring(begin,end);
             
             if ((inst_count)%4==0)
             {
@@ -59,6 +59,7 @@ public class Instruction_memory {
     public String Fetch(int address){
         String str = "";
         for (int i=0;i<4;i++){
+            System.out.println("WHile Fetching : "+(starting_address+address+i));
             str += Instruction_memory.IntMemory[starting_address+address+i];
         }
     this.CurrentInstruction += starting_address+address+4;
