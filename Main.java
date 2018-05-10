@@ -88,7 +88,6 @@ public class Main extends Application {
             }
             else{
                 inst_num = inst.length;
-                System.out.println("Number of instructions = "+inst_num);
                 MainLoop.inst_num = inst_num;
                 MainLoop.pc = "000000000000000000000000000000000";
                 mainLoop = new MainLoop();

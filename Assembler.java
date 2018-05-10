@@ -137,7 +137,7 @@ public class Assembler {
                     full_str += this.get_OpCode(str);
                     full_str += this.get_Rs(str);
                     full_str += this.get_Rd(str);
-                    full_str += to_16(this.get_Shamt(str));
+                    full_str += to_16_signed(this.get_Shamt(str));
                     return full_str;
                 }else{
                     String new_pos;
@@ -180,6 +180,19 @@ public class Assembler {
                     full_str += this.get_OpCode(str);
                     full_str += ""+new_pos;
                     return full_str;
+            }else if(opName.equals("jal")){
+                String new_pos;
+                if(this.get_label_address(str,"jal").charAt(0) == '0'||this.get_label_address(str,"jal").charAt(0) == '1'){
+                    //BEQ RELATIVE ADDRESS.
+                    new_pos=this.to_26(Integer.toBinaryString(Integer.parseInt(this.get_label_address(str,"jal"))));
+                }else{
+                    new_pos=this.get_label_address(str,"jal");
+                }
+                //beq
+                //System.out.println(this.get_label_address(str,"j").charAt(0));
+                full_str += this.get_OpCode(str);
+                full_str += ""+new_pos;
+                return full_str;
             }
         }else{
             return null;
@@ -409,6 +422,22 @@ public class Assembler {
         if(str.length() < 16){
             for(int i=0;i<16-str.length();i++){
                 new_str += "0";
+            }
+            new_str+=str;
+            return new_str;
+        }else if(str.length() == 16){
+            return str;
+        }else{
+            new_str += str.substring(16, str.length());
+            return new_str;
+        }
+    }
+    public  String to_16_signed(String str){
+        String new_str="";
+        if(str.length() < 16){
+            String filler = str.charAt(0)+"";
+            for(int i=0;i<16-str.length();i++){
+                new_str += filler;
             }
             new_str+=str;
             return new_str;

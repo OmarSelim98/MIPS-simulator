@@ -18,7 +18,7 @@ public class DataMemory {
         this.mem_read = mem_read;
     }
     public void set_address(String address){
-        this.address = mem_write;
+        this.address = address;
     }
     public void set_data(String write_data){
         this.write_data = write_data;
@@ -29,10 +29,10 @@ public class DataMemory {
 
     public String Calculate(){
         String data = "00000000000000000000000000000000";
-        if(this.mem_write.equals("1")){
+        if(ControlUnit.MemWrite.equals("1")){
             ChooseMemoryOpeartion(this.address,this.write_data,this.op_code);
-        }else if(this.mem_write.equals("0")){
-            if(this.mem_read.equals("1")){
+        }else if((ControlUnit.MemWrite.equals("0"))){
+            if((ControlUnit.MemRead.equals("1"))){
                 data = ChooseMemoryOpeartion(this.address,this.write_data,this.op_code);
             }
         }
@@ -58,10 +58,10 @@ public class DataMemory {
     public void StoreWord(String Address,String Value)
     {
         int begin =0,end=8;
-        int address = Integer.parseInt(Address,2);
+        int address = (int)Long.parseLong(Address,2);
         for(int i= address;i<address+4;i++)
         {
-            Memory[i]=Value.substring(begin,end);
+            Memory[i]=""+Value.substring(begin,end);
             begin=end;
             end+=8;
         }
@@ -71,7 +71,7 @@ public class DataMemory {
     public void StoreByte(String Address,String value)//take least Significant 8 bits
     {
         int address = Integer.parseInt(Address,2);
-        Memory[address]=value.substring(25,32);
+        Memory[address]=""+value.substring(25,32);
     }
     public String LoadByte(String Address)
     // need to sign extend
@@ -126,7 +126,7 @@ public class DataMemory {
                  this.StoreWord(adress,Value);
             }
         }
-    return  null;
+    return  "";
     }
 
 

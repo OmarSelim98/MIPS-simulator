@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class DataScene {
     private Group root = new Group();
@@ -19,11 +20,18 @@ public class DataScene {
     private GridPane regs = new GridPane();
     private BorderPane topPane = new BorderPane();
 
+    private Label Instruction = new Label();
+
+    //for Memory
+    private ScrollPane memScrollPane = new ScrollPane();
+    private GridPane memData = new GridPane();
+    private ArrayList<Label> memLbl = new ArrayList<>();
+
     //for wires
     private GridPane wiresPane = new GridPane();
     private Label [] wiresLabels = new Label[14];
     private Label [][] wiresNames = new Label[14][];
-    private TextField [][] wiresData = new TextField[6][9];
+    private TextField [] wiresData = new TextField[48];
     private ScrollPane wiresScrollPane = new ScrollPane();
     private Label wireLabel = new Label("Wires");
 
@@ -43,11 +51,15 @@ public class DataScene {
 
         prepareRegsNames();
         prepareRegsData();
+        prepareWiresData(mainLoop.getDataToDisplay());
         prepareWiresNames();
+
+        Instruction.setTextFill(Color.WHITE);
 
         topPane.setPrefWidth(this.getScene().getWidth());
         topPane.setStyle("-fx-background-color:#202020");
         topPane.setLeft(backBtn);
+        topPane.setCenter(Instruction);
         topPane.setRight(nextBtn);
         topPane.setPadding(new Insets(10,10,10,10));
 
@@ -86,15 +98,29 @@ public class DataScene {
 
         //HANDLERS
         this.nextBtn.setOnAction(e->{
-            if(counter<(mainLoop.inst.length-1)) {
-                this.mainLoop.start();
+            try {
+                String[] data = this.mainLoop.start();
                 prepareRegsData();
+                updateWiresData(data);
+                Instruction.setText(MainLoop.pc);
+                counter++;
+            }catch (Exception err){
+                err.printStackTrace();
+                nextBtn.setDisable(true);
+            }
+            /*
+            if(counter<(mainLoop.inst.length-1)) {
+
                 counter ++;
             }else{
-                this.mainLoop.start();
-                prepareRegsData();
-                this.nextBtn.setDisable(true);
+                try {
+                    String[] data = this.mainLoop.start();
+                    prepareRegsData();
+                    updateWiresData(data);
+                }
+                //this.nextBtn.setDisable(true);
             }
+            */
         });
         this.backBtn.setOnAction(e->{
             Main.SetScene(Main.editor);
@@ -111,11 +137,15 @@ public class DataScene {
     public void prepareRegsData(){
         if(regsData[0] != null){
             for (int i = 0; i < 32; i++) {
-                regsData[i].setText(RegisterFile.regData[i]);
+                try {
+                    regsData[i].setText(Integer.parseInt(RegisterFile.regData[i], 2)+"");
+                }catch(Exception e){
+                    regsData[i].setText(RegisterFile.regData[i]);
+                }
             }
         }else {
             for (int i = 0; i < 32; i++) {
-                regsData[i] = new TextField(RegisterFile.regData[i]);
+                regsData[i] = new TextField(Integer.parseInt(RegisterFile.regData[i],2)+"");
             }
         }
     }
@@ -169,9 +199,10 @@ public class DataScene {
 
         //ALU CONTROL
         wiresLabels[5] = new Label("ALU CONTROL");
-        wiresNames[5] = new Label[2];
+        wiresNames[5] = new Label[3];
         wiresNames[5][0]= new Label("ALU Control OP");
         wiresNames[5][1] = new Label("Shamt Src");
+        wiresNames[5][2] = new Label("jumpR Src");
 
         //ShamtSrcMux
         wiresLabels[6] = new Label("MUX:ShamtSrc");
@@ -238,8 +269,13 @@ public class DataScene {
                 for(int j = 0;j<wiresNames[i].length;j++){
                     wiresPane.add(wiresNames[i][j], 1, end + j);
                 }
-                end += wiresNames[i].length+1;
+                end += wiresNames[i].length;
             }
+
+        for(int i = 0;i< 47;i++){
+            wiresPane.add(wiresData[i],2,i+1);
+        }
+
 
         wiresPane.setPadding(new Insets(10,10,10,10));
         wiresPane.setHgap(75);
@@ -247,8 +283,29 @@ public class DataScene {
         wiresPane.getStylesheets().add(this.getClass().getResource("wiresStyle.css").toExternalForm());
         wiresPane.getStyleClass().add("pane");
     }
+    public void prepareWiresData(String [] data){
+            for (int i = 0; i < 48; i++) {
+                wiresData[i] = new TextField(data[i]);
+                wiresData[i].setEditable(false);
+                wiresData[i].setPrefColumnCount(20);
+            }
+    }
+    public void updateWiresData(String [] data){
 
-    public void updateWiresData(){
-
+            for (int i = 0; i < 48; i++) {
+                wiresData[i].setText(data[i]);
+            }
+    }
+    public void prepareMemLabels(){
+        for(int i = 0;i<DataMemory.Memory.length;i++){
+            if(DataMemory.Memory[i] != null){
+                memLbl.add(new Label("Data At Location ["+i+"] = "+DataMemory.Memory[i]));
+            }else{
+                    if (memLbl.get(i) == null){
+                        memLbl.remove(i);
+                    }
+                }
+            }
+        }
     }
 }

@@ -23,11 +23,12 @@ public class ALU {
     /**Do The Calculation*/
     public void calculate(){
         try {
-            int num1 = Integer.parseInt(input1, 2);
-            int num2 = Integer.parseInt(input2, 2);
+            int num1 = (int)Long.parseLong(input1, 2);
+            int num2 = (int)Long.parseLong(input2, 2);
             int res;
             if (code.equals("0010")) { //ADD (add - addi - sw - lw - sb - lb - lbu)
                 res = num1 + num2;
+                System.out.println("RESULT:"+res);
                 this.result = this.convert_extend(res);
             } else if (code.equals("0110")) { //SUB(beq)
                 res = num1 - num2;
@@ -58,6 +59,7 @@ public class ALU {
                 this.result = this.convert_extend(res);
             } else if (code.equals("1001")) {//jr
                 //WAITING
+
             }
         }catch (Exception e){
             this.input1 = "000000000000000000000000000000000";

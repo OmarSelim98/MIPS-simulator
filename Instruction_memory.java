@@ -68,6 +68,7 @@ public class Instruction_memory {
     public String[] Divide_Instruction(String Instruction)
             //divides the instruction to it's standard form (opcode rs rt rd shifamt funcode)
     {
+
         String [] str=new String[6];
         str[0]=Instruction.substring(0,6);
         str[1]=Instruction.substring(6,11);

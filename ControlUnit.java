@@ -24,7 +24,7 @@ public class ControlUnit {
         ControlUnit.Jump = "0";
         ControlUnit.JumpR = "0";
     }
-    public void set(String opCode){
+    public void set(String opCode, String pc){
         ControlUnit.JumpR = "0";
         /*R-type Control unit outputs*/
         if(opCode.equals("000000")){
@@ -50,7 +50,16 @@ public class ControlUnit {
             ControlUnit.Jump = "1";
             if(opCode.equals("000011")){
                 //if JAL set ra to sth.
-
+                ControlUnit.RegDst = "0";
+                ControlUnit.Branch = "0";
+                ControlUnit.MemRead = "0";
+                ControlUnit.MemtoReg = "0";
+                ControlUnit.MemWrite = "0";
+                ControlUnit.AluSrc = "0";
+                ControlUnit.RegWrite = "0";
+                ControlUnit.AluOP = "000";
+                ControlUnit.Jump = "1";
+                RegisterFile.regData[31] = pc;
             }
         }else if(opCode.equals("001000")){ //addi
             ControlUnit.RegDst = "0";
@@ -73,7 +82,7 @@ public class ControlUnit {
             ControlUnit.AluOP = "000";
             ControlUnit.Jump = "0";
         }else if(opCode.equals("101011") || opCode.equals("101000")){ //sw || sb
-            ControlUnit.RegDst = "0";
+            ControlUnit.RegDst = "1";
             ControlUnit.Branch = "0";
             ControlUnit.MemRead = "0";
             ControlUnit.MemtoReg = "0";

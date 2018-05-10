@@ -45,6 +45,7 @@ public class RegisterFile {
        for(int i=0;i<regData.length;i++){
            regData[i]="00000000000000000000000000000000";
        }
+       regData[29]="00000000001111010000100100000000";
        this.reg1 = "";
        this.reg2="";
     }
@@ -85,7 +86,7 @@ public class RegisterFile {
     /**  */
     public void write(String data){
         int reg_index = Integer.parseInt(this.regWrite);
-        this.regWriteBool = ControlUnit.RegWrite;
+        this.regWriteBool = (ControlUnit.RegWrite);
         if (regWriteBool.equals("1")){ //we check if we can write data
             //save data to register
             this.regData[reg_index] = data;
