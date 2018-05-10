@@ -303,7 +303,7 @@ public class DataScene {
             }else{
                     if (memLbl.get(i) == null){
                         memLbl.remove(i);
-                    }
+
                 }
             }
         }
